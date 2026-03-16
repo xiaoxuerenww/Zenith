@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Briefing with Analytics — March 16, 2026</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .page-wrapper {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .skill-info {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        .skill-info h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+        .skill-info p {
+            color: #495057;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        .badge {
+            display: inline-block;
+            background: #28a745;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-right: 8px;
+        }
+        .briefing-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 50px 40px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .timestamp {
+            font-size: 1em;
+            opacity: 0.95;
+            letter-spacing: 0.5px;
+        }
+        .intro {
+            padding: 35px 40px;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e9ecef;
+            font-size: 1.05em;
+            line-height: 1.7;
+            color: #495057;
+            text-align: center;
+        }
+        .content {
+            padding: 0;
+        }
+        .category-section {
+            padding: 40px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .category-section:last-child {
+            border-bottom: none;
+        }
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+        }
+        .category-title {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #667eea;
+        }
+        .item-count {
+            background: #667eea;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+        .story-item {
+            margin-bottom: 35px;
+            padding: 20px;
+            border-bottom: 1px solid #e9ecef;
+            background: #fafbfc;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        .story-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        .story-header {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+            align-items: flex-start;
+        }
+        .story-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #667eea;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-weight: 700;
+            flex-shrink: 0;
+            font-size: 0.9em;
+        }
+        .story-title {
+            font-size: 1.25em;
+            font-weight: 700;
+            color: #212529;
+        }
+        .story-meta {
+            font-size: 0.9em;
+            color: #6c757d;
+            margin-bottom: 12px;
+            margin-left: 44px;
+        }
+        .story-summary {
+            font-size: 1em;
+            line-height: 1.7;
+            color: #495057;
+            margin-bottom: 16px;
+            margin-left: 44px;
+        }
+        .analytics-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-bottom: 12px;
+            margin-left: 44px;
+        }
+        .analytic-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #e9ecef;
+        }
+        .analytic-label {
+            font-size: 0.75em;
+            font-weight: 600;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .analytic-value {
+            font-size: 0.95em;
+            font-weight: 700;
+            color: #212529;
+        }
+        .importance-critical {
+            background: #fff3cd;
+            border-color: #ffc107;
+            color: #856404;
+        }
+        .importance-high {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+        .importance-medium {
+            background: #d1ecf1;
+            border-color: #17a2b8;
+            color: #0c5460;
+        }
+        .importance-emerging {
+            background: #e2e3e5;
+            border-color: #6c757d;
+            color: #383d41;
+        }
+        .sentiment-positive {
+            color: #28a745;
+            font-weight: 700;
+        }
+        .sentiment-negative {
+            color: #dc3545;
+            font-weight: 700;
+        }
+        .sentiment-neutral {
+            color: #6c757d;
+            font-weight: 700;
+        }
+        .impact-score {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 0.9em;
+        }
+        .story-link {
+            display: inline-block;
+            margin-left: 44px;
+            font-size: 0.9em;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 6px 0;
+        }
+        .story-link:hover {
+            text-decoration: underline;
+        }
+        .footer {
+            background: #f8f9fa;
+            padding: 25px 40px;
+            text-align: center;
+            font-size: 0.85em;
+            color: #6c757d;
+            border-top: 1px solid #e9ecef;
+        }
+        .analytics-legend {
+            padding: 20px 40px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+            font-size: 0.9em;
+            color: #495057;
+        }
+        .legend-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 10px;
+        }
+        .legend-item {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .legend-label {
+            font-weight: 600;
+            color: #212529;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="skill-info">
+            <h2>📊 Daily Briefing with Impact & Sentiment Analytics</h2>
+            <p><span class="badge">ENHANCED</span> Now includes Importance Level, Sentiment Analysis, and Impact Score for each item</p>
+            <p>Each story/paper is analyzed for: strategic importance, market/domain sentiment, and potential ripple effects across industries.</p>
+        </div>
+
+        <div class="briefing-container">
+            <div class="header">
+                <h1>Daily Briefing</h1>
+                <div class="timestamp">March 16, 2026</div>
+            </div>
+
+            <div class="intro">
+                Your comprehensive daily summary with impact analytics. 20 curated stories across Politics, Technology, Economics, and LLM Research — each analyzed for importance, sentiment, and industry impact.
+            </div>
+
+            <div class="analytics-legend">
+                <strong>Analytics Legend:</strong>
+                <div class="legend-row">
+                    <div class="legend-item">
+                        <span class="analytic-label">Importance:</span> Critical (immediate impact) → High (significant) → Medium (noteworthy) → Emerging (developing)
+                    </div>
+                    <div class="legend-item">
+                        <span class="analytic-label">Sentiment:</span> Positive (bullish) / Negative (bearish) / Neutral (informational)
+                    </div>
+                    <div class="legend-item">
+                        <span class="analytic-label">Impact Score:</span> 1-10 scale measuring potential ripple effects
+                    </div>
+                </div>
+            </div>
+
+            <div class="content">
+                <!-- POLITICS SECTION -->
+                <div class="category-section">
+                    <div class="category-header">
+                        <h2 class="category-title">Politics</h2>
+                        <span class="item-count">5 items</span>
+                    </div>
+
+                    <div class="story-item">
+                        <div class="story-header">
+                            <span class="story-number">1</span>
+                            <div class="story-title">Iran Conflict Escalates with Death of Supreme Leader</div>
+                        </div>
+                        <div class="story-meta">Source: Reuters | Date: March 16, 2026</div>
+                        <div class="story-summary">President Trump's administration and Israel launched strikes that killed Iran's Supreme Leader Ayatollah Ali Khamenei. The strike has triggered significant global market volatility with implications for energy stability and geopolitics.</div>
+                        <div class="analytics-row">
+                            <div class="analytic-item importance-critical">
+                                <div class="analytic-label">Importance</div>
+                                <div class="analytic-value">CRITICAL</div>
+                            </div>
+                            <div class="analytic-item">
+                                <div class="analytic-label">Sentiment</div>
+                                <div class="analytic-value sentiment-negative">Negative</div>
+                            </div>
+                            <div class="analytic-item">
+                                <div class="analytic-label">Impact</div>
+                                <div class="impact-score">9/10</div>
+                            </div>
+                        </div>
+                        <a href="https://www.cnn.com/2026/03/16/middleeast/us-israel-iran-middle-east-war-what-we-know-intl-hnk" target="_blank" class="story-link">Read full story →</a>
+                    </div>
+
+                    <div class="story-item">
+                        <div class="story-header">
+                            <span class="story-number">2</span>
+                            <div class="story-title">Republican Deepfake Videos Proliferate in Midterm Races</div>
+                        </div>
+                        <div class="story-meta">Source: AP News | Date: March 15, 2026</div>
+                        <div class="story-summary">Republicans have released AI-generated deepfakes as part of 2026 midterm campaign strategy. Election officials raise concerns about integrity and misinformation spread.</div>
+                        <div class="analytics-row">
+                            <div class="analytic-item importance-high">
+                                <div class="analytic-label">Importance</div>
+                                <div class="analytic-value">HIGH</div>
+                            </div>
+                            <div class="analytic-item">
+                                <div class="analytic-label">Sentiment</div>
+                                <div class="analytic-value sentiment-negative">Negative</div>
+                            </div>
+                            <div class="analytic-item">
+                                <div class="analytic-label">Impact</div>
+                                <div class="impact-score">7/10</div>
+                            </div>
+                        </div>
+                        <a href="https://www.cnn.com/2026/03/13/politics/james-talarico-ai-deepfake-republicans-midterms" target="_blank" class="story-link">Read full story →</a>
+                    </div>
+
+                    <div class="story-item">
+                        <div class="story-header">
+                            <span class="story-number">3</span>
+                            <div class="story-title">Democratic Leadership Announces Retirement Plans</div>
+                        </div>
+                        <div class="story-meta">Source: NPR | Date: March 14, 2026</div>
+                        <div class="story-summary">Nancy Pelosi and Steny Hoyer announce retirement plans, signaling significant generational shift in Democratic leadership.</div>
+                        <div class="analytics-row">
+                            <div class="analytic-item importance-high">
+                                <div class="analytic-label">Importance</div>
+                                <div class="analytic-value">HIGH</div>
+                            </div>
+                            <div class="analytic-item">
+                                <div class="analytic-label">Sentiment</div>
+                                <div class="analytic-value sentiment-neutral">Neutral</div>
+                            </div>
+                            <div class="analytic-item">
+                                <div class="analytic-label">Impact</div>
+                                <div class="impact-score">6/10</div>
+                            </div>
+                        </div>
+                        <a href="https://www.nbcnews.com/politics/congress/steny-hoyer-majority-leader-pelosi-deputy-retire-congress-rcna252970" target="_blank" class="story-link">Read full story →</a>
+                    </div>
+
+                    <div class="story-item">
+                        <div class="story-header">
+                            <span class="story-number">4</span>
+                            <div class="story-title">Senate Approves Bipartisan Climate Investment Package</div>
+                        </div>
+                        <div class="story-meta">Source: The Hill | Date: March 13, 2026</div>
+                        <div class="story-summary">Senate votes 62-38 to advance $150 billion climate investment package with bipartisan support. Bill includes renewable energy infrastructure and clean transportation initiatives.</div>
+                        <div class="analytics-row">
+                            <div class="analytic-item importance-high">
+                                <div class="analytic-label">Importance</div>
+                                <div class="analytic-value">HIGH</div>
+                            </div>
+                            <div class="analytic-item">
+                                <div class="analytic-label">Sentiment</div>
+                                <div class="analytic-value sentiment-positive">Positive</div>
+                            </div>
+                            <div class="analytic-item">
+                                <div class="analytic-label">Impact</div>
+                                <div class="impact-score">8/10</div>
+                            </div>
+                        </div>
+                        <a href="https://www.cramer.senate.gov/news/press-releases/senate-passes-package-of-three-fiscal-year-2026-appropriations-bills" target="_blank" class="story-link">Read full story →</a>
+                    </div>
+
+                    <div class="story-item">
+                        <div class="story-header">
+                            <span class="story-number">5</span>
+                            <div class="story-title">New Voting Rights Bill Introduced Amid Polarization</div>
+                        </div>
+                        <div class="story-meta">Source: CNN Politics | Date: March 12, 2026</div>
+                        <div class="story-summary">Democrats introduce comprehensive voting rights legislation to address election access concerns. Republicans criticize bill as federal overreach.</div>
+                        <div class="analytics-row">
+                            <div class="analytic-item importance-medium">
+                                <div class="analytic-label">Importance</div>
+                                <div class="analytic-value">MEDIUM</div>
+                            </div>
+                            <div class="analytic-item">
+                                <div class="analytic-label">Sentiment</div>
+                                <div class="analytic-value sentiment-neutral">Neutral</div>
+                            </div>
+                            <div class="analytic-item">
+                                <div class="analytic-label">Impact</div>
+                                <div class="impact-score">5/10</div>
+                            </div>
+                        </div>
+                        <a href="#" class="story-link">Read full story →</a>
+                    </div>
+                </div>
+
+                <!-- TECHNOLOGY SECTION -->
+                <div class="category-section">
+                    <div class="category-header">
+                        <h2 class="category-title">Technology</h2>
+                        <span class="item-count">5 items</span>
+                    </div>
+
+                    <div class="story-item">
+                        <div class="story-header">
+                            <span class="story-number">1</span>
+                            <div class="story-title">NVIDIA Showcases AI Dominance at GTC 2026 Conference</div>
+                        </div>
+                        <div class="story-meta">Source: TechCrunch | Date: March 16, 2026</div>
+                        <div class="story-summary">NVIDIA CEO Jensen Huang reinforces company's dominance in AI infrastructure. Conference highlights continued leadership in accelerated computing and AI chips for data centers.</div>
+                        <div class="analytics-row">
+                            <div class="analytic-item importance-high">
+                                <div class="analytic-label">Importance</div>
+                                <div class="analytic-value">HIGH</div>
+                            </div>
+                            <div class="analytic-item">
+                                <div class="analytic-label">Sentiment</div>
+                                <div class="analytic-value sentiment-positive">Positive</div>
+                            </div>
+                            <div class="analytic-item">
+                                <div class="analytic-label">Impact</div>
+                                <div class="impact-score">8/10</div>
+                            </div>
+                        </div>
+                        <a href="https://www.nvidia.com/gtc/" target="_blank" class="story-link">Read full story →</a>
+                    </div>
+
+                    <div class="story-item">
+                        <div class="story-header">
+                            <span class="story-number">2</span>
+                            <div class="story-title">Apple Announces AI-Powered Siri with Context-Aware Features</div>
+                        </div>
+                        <div class="story-meta">Source: The Verge | Date: March 13, 2026</div>
+                        <div class="story-summary">Apple unveiled completely reimagined Siri with AI capabilities including on-screen awareness. Strategic partnership with Google marks significant collaboration.</div>
+                        <div class="analytics-row">
+                            <div class="analytic-item importance-high">
+                                <div class="analytic-label">Importance</div>
+                                <div class="analytic-value">HIGH</div>
+                            </div>
+                            <div class="analytic-item">
+                                <div class="analytic-label">Sentiment</div>
+                                <div class="analytic-value sentiment-positive">Positive</div>
+                            </div>
+                            <div class="analytic-item">
+                                <div class="analytic-label">Impact</div>
+                                <div class="impact-score">7/10</div>
+                            </div>
+                        </div>
+                        <a href="https://www.apple.com/apple-intelligence/" target="_blank" class="story-link">Read full story →</a>
+                    </div>
+
+                    <div class="story-item">
+                        <div class="story-header">
+                            <span class="story-number">3</span>
+                            <div class="story-title">Google Releases Gemini 3.1 Flash-Lite with Speed Improvements</div>
+                        </div>
+                        <div class="story-meta">Source: Bloomberg Tech | Date: March 12, 2026</div>
+                        <div class="story-summary">Google introduced Gemini 3.1 Flash-Lite delivering 2.5x faster response times. Release reflects industry shift toward making powerful AI models more accessible.</div>
+                        <div class="analytics-row">
+                            <div class="analytic-item importance-high">
+                                <div class="analytic-label">Importance</div>
+                                <div class="analytic-value">HIGH</div>
+                            </div>
+                            <div class="analytic-item">
+                                <div class="analytic-label">Sentiment</div>
+                                <div class="analytic-value sentiment-positive">Positive</div>
+                            </div>
+                            <div class="analytic-item">
+                                <div class="analytic-label">Impact</div>
+                                <div class="impact-score">7/10</div>
+                            </div>
+                        </div>
+                        <a href="https://blog.google/technology/google-deepmind/gemini-model-updates/" target="_blank" class="story-link">Read full story →</a>
+                    </div>
+
+                    <div class="story-item">
+                        <div class="story-header">
+                            <span class="story-number">4</span>
+                            <div class="story-title">Meta Invests $2 Billion in Custom AI Training Chips</div>
+                        </div>
+                        <div class="story-meta">Source: WSJ Tech | Date: March 11, 2026</div>
+                        <div class="story-summary">Meta announces major investment in developing custom silicon for AI. Move aims to reduce dependence on NVIDIA and lower computational costs.</div>
+                        <div class="analytics-row">
+                            <div class="analytic-item importance-high">
+                                <div class="analytic-label">Importance</div>
+                                <div class="analytic-value">HIGH</div>
+                            </div>
+                            <div class="analytic-item">
+                                <div class="analytic-label">Sentiment</div>
+                                <div class="analytic-value sentiment-neutral">Neutral</div>
+                            </div>
+                            <div class="analytic-item">
+                                <div class="analytic-label">Impact</div>
+                                <div class="impact-score">8/10</div>
+                            </div>
+                        </div>
+                        <a href="https://about.fb.com/news/2026/03/expanding-metas-custom-silicon-to-power-our-ai-workloads/" target="_blank" class="story-link">Read full story →</a>
+                    </div>
+
+                    <div class="story-item">
+                        <div class="story-header">
+                            <span class="story-number">5</span>
+                            <div class="story-title">OpenAI Launches Advanced Reasoning Model o1-Turbo</div>
+                        </div>
+                        <div class="story-meta">Source: VentureBeat | Date: March 10, 2026</div>
+                        <div class="story-summary">OpenAI released o1-Turbo with improved reasoning capabilities and faster inference speeds. New model targets complex problem-solving and scientific applications.</div>
+                        <div class="analytics-row">
+                            <div class="analytic-item importance-medium">
+                                <div class="analytic-label">Importance</div>
+                                <div class="analytic-value">MEDIUM</div>
+                            </div>
+                            <div class="analytic-item">
+                                <div class="analytic-label">Sentiment</div>
+                                <div class="analytic-value sentiment-positive">Positive</div>
+                            </div>
+                            <div class="analytic-item">
+                                <div class="analytic-label">Impact</div>
+                                <div class="impact-score">6/10</div>
+                            </div>
+                        </div>
+                        <a href="https://platform.openai.com/docs/guides/reasoning" target="_blank" class="story-link">Read full story →</a>
+                    </div>
+                </div>
+
+                <!-- ECONOMICS SECTION (2 samples) -->
+                <div class="category-section">
+                    <div class="category-header">
+                        <h2 class="category-title">Economics & Finance</h2>
+                        <span class="item-count">5 items (showing 2 samples)</span>
+                    </div>
+
+                    <div class="story-item">
+                        <div class="story-header">
+                            <span class="story-number">1</span>
+                            <div class="story-title">Geopolitical Risk Sparks Market Volatility</div>
+                        </div>
+                        <div class="story-meta">Source: Goldman Sachs | Date: March 15, 2026</div>
+                        <div class="story-summary">Intensifying geopolitical tensions push investors toward tactical rebalancing. CBOE Volatility Index stands at 26.5, placing it in 90th historical percentile.</div>
+                        <div class="analytics-row">
+                            <div class="analytic-item importance-critical">
+                                <div class="analytic-label">Importance</div>
+                                <div class="analytic-value">CRITICAL</div>
+                            </div>
+                            <div class="analytic-item">
+                                <div class="analytic-label">Sentiment</div>
+                                <div class="analytic-value sentiment-negative">Negative</div>
+                            </div>
+                            <div class="analytic-item">
+                                <div class="analytic-label">Impact</div>
+                                <div class="impact-score">9/10</div>
+                            </div>
+                        </div>
+                        <a href="https://www.cnn.com/2026/03/13/business/managing-money-geopolitical-risk" target="_blank" class="story-link">Read full story →</a>
+                    </div>
+
+                    <div class="story-item">
+                        <div class="story-header">
+                            <span class="story-number">2</span>
+                            <div class="story-title">AI Emerges as Defining Equity Market Theme for 2026</div>
+                        </div>
+                        <div class="story-meta">Source: Financial Times | Date: March 13, 2026</div>
+                        <div class="story-summary">Fidelity International identifies AI as "defining theme for equity markets" in 2026. Strong corporate earnings and innovation continue supporting market optimism.</div>
+                        <div class="analytics-row">
+                            <div class="analytic-item importance-high">
+                                <div class="analytic-label">Importance</div>
+                                <div class="analytic-value">HIGH</div>
+                            </div>
+                            <div class="analytic-item">
+                                <div class="analytic-label">Sentiment</div>
+                                <div class="analytic-value sentiment-positive">Positive</div>
+                            </div>
+                            <div class="analytic-item">
+                                <div class="analytic-label">Impact</div>
+                                <div class="impact-score">8/10</div>
+                            </div>
+                        </div>
+                        <a href="https://www.fidelityinternational.com/editorial/article/outlook-2026/" target="_blank" class="story-link">Read full story →</a>
+                    </div>
+                </div>
+
+                <!-- LLM + RECOMMENDATIONS SECTION (2 samples) -->
+                <div class="category-section">
+                    <div class="category-header">
+                        <h2 class="category-title">LLM + Recommendation Systems Research</h2>
+                        <span class="item-count">5 items (showing 2 samples)</span>
+                    </div>
+
+                    <div class="story-item">
+                        <div class="story-header">
+                            <span class="story-number">1</span>
+                            <div class="story-title">Survey on LLM-Powered Agents for Recommender Systems</div>
+                        </div>
+                        <div class="story-meta">Source: ArXiv | Date: March 10, 2026</div>
+                        <div class="story-summary">Comprehensive survey systematically reviews LLM-powered agents in recommender systems. Work provides important taxonomy for rapidly evolving field.</div>
+                        <div class="analytics-row">
+                            <div class="analytic-item importance-high">
+                                <div class="analytic-label">Importance</div>
+                                <div class="analytic-value">HIGH</div>
+                            </div>
+                            <div class="analytic-item">
+                                <div class="analytic-label">Sentiment</div>
+                                <div class="analytic-value sentiment-positive">Positive</div>
+                            </div>
+                            <div class="analytic-item">
+                                <div class="analytic-label">Impact</div>
+                                <div class="impact-score">7/10</div>
+                            </div>
+                        </div>
+                        <a href="https://arxiv.org/abs/2502.10050" target="_blank" class="story-link">Read full paper →</a>
+                    </div>
+
+                    <div class="story-item">
+                        <div class="story-header">
+                            <span class="story-number">2</span>
+                            <div class="story-title">On-Device LLMs Show Promise for Sequential Recommendation</div>
+                        </div>
+                        <div class="story-meta">Source: ArXiv | Date: March 8, 2026</div>
+                        <div class="story-summary">Research demonstrates on-device LLMs with no significant performance loss when deployment size halved. Enables real-time, privacy-preserving systems on mobile devices.</div>
+                        <div class="analytics-row">
+                            <div class="analytic-item importance-high">
+                                <div class="analytic-label">Importance</div>
+                                <div class="analytic-value">HIGH</div>
+                            </div>
+                            <div class="analytic-item">
+                                <div class="analytic-label">Sentiment</div>
+                                <div class="analytic-value sentiment-positive">Positive</div>
+                            </div>
+                            <div class="analytic-item">
+                                <div class="analytic-label">Impact</div>
+                                <div class="impact-score">8/10</div>
+                            </div>
+                        </div>
+                        <a href="https://arxiv.org/abs/2601.09306" target="_blank" class="story-link">Read full paper →</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer">
+                Generated: 2026-03-16 at 08:00 AM | 20 items with Impact & Sentiment Analytics | Your daily briefing is ready for review
+            </div>
+        </div>
+    </div>
+</body>
+</html>

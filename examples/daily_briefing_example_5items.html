@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Briefing — March 16, 2026 (5 items per category)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .page-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .skill-info {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        .skill-info h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+        .skill-info p {
+            color: #495057;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        .badge {
+            display: inline-block;
+            background: #28a745;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-right: 8px;
+        }
+        .briefing-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 50px 40px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .timestamp {
+            font-size: 1em;
+            opacity: 0.95;
+            letter-spacing: 0.5px;
+        }
+        .intro {
+            padding: 35px 40px;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e9ecef;
+            font-size: 1.1em;
+            line-height: 1.7;
+            color: #495057;
+            text-align: center;
+        }
+        .content {
+            padding: 0;
+        }
+        .category-section {
+            padding: 40px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .category-section:last-child {
+            border-bottom: none;
+        }
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+        }
+        .category-title {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #667eea;
+        }
+        .item-count {
+            background: #667eea;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+        .story-item {
+            margin-bottom: 35px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .story-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .story-header {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .story-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #667eea;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-weight: 700;
+            flex-shrink: 0;
+            font-size: 0.9em;
+        }
+        .story-title {
+            font-size: 1.25em;
+            font-weight: 700;
+            color: #212529;
+        }
+        .story-meta {
+            font-size: 0.9em;
+            color: #6c757d;
+            margin-bottom: 12px;
+            margin-left: 44px;
+        }
+        .story-summary {
+            font-size: 1em;
+            line-height: 1.7;
+            color: #495057;
+            margin-bottom: 12px;
+            margin-left: 44px;
+        }
+        .story-link {
+            display: inline-block;
+            margin-left: 44px;
+            font-size: 0.9em;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 6px 0;
+        }
+        .story-link:hover {
+            text-decoration: underline;
+        }
+        .footer {
+            background: #f8f9fa;
+            padding: 25px 40px;
+            text-align: center;
+            font-size: 0.85em;
+            color: #6c757d;
+            border-top: 1px solid #e9ecef;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="skill-info">
+            <h2>📰 Daily Briefing Skill — Updated</h2>
+            <p><span class="badge">NEW</span> Now delivers <strong>5 items per category</strong> (20 total) for comprehensive coverage</p>
+            <p>Automatically aggregates and curates the top stories and research from Politics, Technology, Economics/Finance, and LLM + Recommendation Systems every morning at 8 AM.</p>
+        </div>
+
+        <div class="briefing-container">
+            <div class="header">
+                <h1>Daily Briefing</h1>
+                <div class="timestamp">March 16, 2026</div>
+            </div>
+
+            <div class="intro">
+                Your comprehensive daily summary of the top 20 stories across Politics, Technology, Economics, and LLM Research. Five curated items from each critical domain to keep you fully informed.
+            </div>
+
+            <div class="content">
+                <!-- POLITICS SECTION -->
+                <div class="category-section">
+                    <div class="category-header">
+                        <h2 class="category-title">Politics</h2>
+                        <span class="item-count">5 items</span>
+                    </div>
+
+                    <div class="story-item">
+                        <div class="story-header">
+                            <span class="story-number">1</span>
+                            <div class="story-title">Iran Conflict Escalates with Death of Supreme Leader</div>
+                        </div>
+                        <div class="story-meta">Source: Reuters | Date: March 16, 2026</div>
+                        <div class="story-summary">President Trump's administration and Israel launched strikes that killed Iran's Supreme Leader Ayatollah Ali Khamenei. The strike has triggered significant global market volatility with implications for energy stability and geopolitics.</div>
+                        <a href="#" class="story-link">Read full story →</a>
+                    </div>
+
+                    <div class="story-item">
+                        <div class="story-header">
+                            <span class="story-number">2</span>
+                            <div class="story-title">Republican Deepfake Videos Proliferate in Midterm Races</div>
+                        </div>
+                        <div class="story-meta">Source: AP News | Date: March 15, 2026</div>
+                        <div class="story-summary">Republicans have released AI-generated deepfakes as part of 2026 midterm campaign strategy, marking escalation in synthetic media use. Election officials raise concerns about integrity and misinformation spread.</div>
+                        <a href="#" class="story-link">Read full story →</a>
+                    </div>
+
+                    <div class="story-item">
+                        <div class="story-header">
+                            <span class="story-number">3</span>
+                            <div class="story-title">Democratic Leadership Announces Retirement Plans</div>
+                        </div>
+                        <div class="story-meta">Source: NPR | Date: March 14, 2026</div>
+                        <div class="story-summary">Nancy Pelosi and Steny Hoyer announce retirement plans, signaling significant generational shift in Democratic leadership. Move reflects internal party dynamics heading into midterm elections.</div>
+                        <a href="#" class="story-link">Read full story →</a>
+                    </div>
+
+                    <div class="story-item">
+                        <div class="story-header">
+                            <span class="story-number">4</span>
+                            <div class="story-title">Senate Approves Bipartisan Climate Investment Package</div>
+                        </div>
+                        <div class="story-meta">Source: The Hill | Date: March 13, 2026</div>
+                        <div class="story-summary">Senate votes 62-38 to advance $150 billion climate investment package with bipartisan support. Bill includes renewable energy infrastructure, carbon capture technology, and clean transportation initiatives.</div>
+                        <a href="#" class="story-link">Read full story →</a>
+                    </div>
+
+                    <div class="story-item">
+                        <div class="story-header">
+                            <span class="story-number">5</span>
+                            <div class="story-title">New Voting Rights Bill Introduced Amid Polarization</div>
+                        </div>
+                        <div class="story-meta">Source: CNN Politics | Date: March 12, 2026</div>
+                        <div class="story-summary">Democrats introduce comprehensive voting rights legislation to address election access concerns. Republicans criticize bill as federal overreach, signaling contentious debate ahead of midterms.</div>
+                        <a href="#" class="story-link">Read full story →</a>
+                    </div>
+                </div>
+
+                <!-- TECHNOLOGY SECTION -->
+                <div class="category-section">
+                    <div class="category-header">
+                        <h2 class="category-title">Technology</h2>
+                        <span class="item-count">5 items</span>
+                    </div>
+
+                    <div class="story-item">
+                        <div class="story-header">
+                            <span class="story-number">1</span>
+                            <div class="story-title">NVIDIA Showcases AI Dominance at GTC 2026 Conference</div>
+                        </div>
+                        <div class="story-meta">Source: TechCrunch | Date: March 16, 2026</div>
+                        <div class="story-summary">NVIDIA CEO Jensen Huang reinforces company's dominance in AI infrastructure at GTC 2026. Conference highlights continued leadership in accelerated computing and AI chips for data centers.</div>
+                        <a href="#" class="story-link">Read full story →</a>
+                    </div>
+
+                    <div class="story-item">
+                        <div class="story-header">
+                            <span class="story-number">2</span>
+                            <div class="story-title">Apple Announces AI-Powered Siri with Context-Aware Features</div>
+                        </div>
+                        <div class="story-meta">Source: The Verge | Date: March 13, 2026</div>
+                        <div class="story-summary">Apple unveiled completely reimagined Siri with AI capabilities including on-screen awareness. Strategic partnership with Google to integrate Gemini model marks significant collaboration between tech giants.</div>
+                        <a href="#" class="story-link">Read full story →</a>
+                    </div>
+
+                    <div class="story-item">
+                        <div class="story-header">
+                            <span class="story-number">3</span>
+                            <div class="story-title">Google Releases Gemini 3.1 Flash-Lite with Speed Improvements</div>
+                        </div>
+                        <div class="story-meta">Source: Bloomberg Tech | Date: March 12, 2026</div>
+                        <div class="story-summary">Google introduced Gemini 3.1 Flash-Lite delivering 2.5x faster response times and 45% faster output generation. Release reflects industry shift toward making powerful AI models more accessible and affordable.</div>
+                        <a href="#" class="story-link">Read full story →</a>
+                    </div>
+
+                    <div class="story-item">
+                        <div class="story-header">
+                            <span class="story-number">4</span>
+                            <div class="story-title">Meta Invests $2 Billion in Custom AI Training Chips</div>
+                        </div>
+                        <div class="story-meta">Source: WSJ Tech | Date: March 11, 2026</div>
+                        <div class="story-summary">Meta announces major investment in developing custom silicon for AI model training and inference. Move aims to reduce dependence on NVIDIA and lower computational costs for large-scale AI infrastructure.</div>
+                        <a href="#" class="story-link">Read full story →</a>
+                    </div>
+
+                    <div class="story-item">
+                        <div class="story-header">
+                            <span class="story-number">5</span>
+                            <div class="story-title">OpenAI Launches Advanced Reasoning Model o1-Turbo</div>
+                        </div>
+                        <div class="story-meta">Source: VentureBeat | Date: March 10, 2026</div>
+                        <div class="story-summary">OpenAI released o1-Turbo with improved reasoning capabilities and faster inference speeds. New model targets complex problem-solving and scientific applications with enhanced transparency.</div>
+                        <a href="#" class="story-link">Read full story →</a>
+                    </div>
+                </div>
+
+                <!-- ECONOMICS/FINANCE SECTION -->
+                <div class="category-section">
+                    <div class="category-header">
+                        <h2 class="category-title">Economics & Finance</h2>
+                        <span class="item-count">5 items</span>
+                    </div>
+
+                    <div class="story-item">
+                        <div class="story-header">
+                            <span class="story-number">1</span>
+                            <div class="story-title">Geopolitical Risk Sparks Market Volatility</div>
+                        </div>
+                        <div class="story-meta">Source: Goldman Sachs | Date: March 15, 2026</div>
+                        <div class="story-summary">Intensifying geopolitical tensions push investors toward tactical rebalancing favoring non-U.S. markets. CBOE Volatility Index stands at 26.5, placing it in 90th historical percentile indicating extreme regime.</div>
+                        <a href="#" class="story-link">Read full story →</a>
+                    </div>
+
+                    <div class="story-item">
+                        <div class="story-header">
+                            <span class="story-number">2</span>
+                            <div class="story-title">February Jobs Report Shows Unexpected Losses</div>
+                        </div>
+                        <div class="story-meta">Source: CNBC | Date: March 14, 2026</div>
+                        <div class="story-summary">U.S. economy shed 92,000 jobs in February with unemployment rising to 4.4%, surprising economists. Labor market weakness raises concerns about economic momentum and may influence Federal Reserve policy.</div>
+                        <a href="#" class="story-link">Read full story →</a>
+                    </div>
+
+                    <div class="story-item">
+                        <div class="story-header">
+                            <span class="story-number">3</span>
+                            <div class="story-title">AI Emerges as Defining Equity Market Theme for 2026</div>
+                        </div>
+                        <div class="story-meta">Source: Financial Times | Date: March 13, 2026</div>
+                        <div class="story-summary">Fidelity International identifies AI as "defining theme for equity markets" in 2026. Strong corporate earnings and innovation in AI infrastructure continue supporting market optimism despite geopolitical headwinds.</div>
+                        <a href="#" class="story-link">Read full story →</a>
+                    </div>
+
+                    <div class="story-item">
+                        <div class="story-header">
+                            <span class="story-number">4</span>
+                            <div class="story-title">Oil Prices Surge Past $100 Amid Regional Tensions</div>
+                        </div>
+                        <div class="story-meta">Source: CNBC Energy | Date: March 12, 2026</div>
+                        <div class="story-summary">Crude oil prices jump to $105 per barrel following geopolitical escalation and production concerns. Energy sector gains while transportation stocks decline as market reassesses economic outlook.</div>
+                        <a href="#" class="story-link">Read full story →</a>
+                    </div>
+
+                    <div class="story-item">
+                        <div class="story-header">
+                            <span class="story-number">5</span>
+                            <div class="story-title">Fed Officials Signal Cautious Approach to Rate Cuts</div>
+                        </div>
+                        <div class="story-meta">Source: Reuters | Date: March 11, 2026</div>
+                        <div class="story-summary">Federal Reserve Chair and governors indicate reluctance to cut rates amid inflation concerns and geopolitical risks. Markets adjust expectations, with futures showing lower probability of spring rate reductions.</div>
+                        <a href="#" class="story-link">Read full story →</a>
+                    </div>
+                </div>
+
+                <!-- LLM + RECOMMENDATION SYSTEMS SECTION -->
+                <div class="category-section">
+                    <div class="category-header">
+                        <h2 class="category-title">LLM + Recommendation Systems Research</h2>
+                        <span class="item-count">5 items</span>
+                    </div>
+
+                    <div class="story-item">
+                        <div class="story-header">
+                            <span class="story-number">1</span>
+                            <div class="story-title">Survey on LLM-Powered Agents for Recommender Systems</div>
+                        </div>
+                        <div class="story-meta">Source: ArXiv | Date: March 10, 2026</div>
+                        <div class="story-summary">Comprehensive survey systematically reviews LLM-powered agents in recommender systems, identifying three key paradigms. Work provides important taxonomy for rapidly evolving field combining language models with recommendations.</div>
+                        <a href="#" class="story-link">Read full paper →</a>
+                    </div>
+
+                    <div class="story-item">
+                        <div class="story-header">
+                            <span class="story-number">2</span>
+                            <div class="story-title">On-Device LLMs Show Promise for Sequential Recommendation</div>
+                        </div>
+                        <div class="story-meta">Source: ArXiv | Date: March 8, 2026</div>
+                        <div class="story-summary">Research on on-device LLMs demonstrates no significant performance loss when deployment size halved. Breakthrough enables real-time, privacy-preserving recommendation systems on mobile and edge devices.</div>
+                        <a href="#" class="story-link">Read full paper →</a>
+                    </div>
+
+                    <div class="story-item">
+                        <div class="story-header">
+                            <span class="story-number">3</span>
+                            <div class="story-title">Leveraging LLM Reasoning Enhances Personalized Recommendations</div>
+                        </div>
+                        <div class="story-meta">Source: ArXiv | Date: March 5, 2026</div>
+                        <div class="story-summary">New research investigates how LLM reasoning capabilities enhance personalized recommendations across settings. Demonstrates improved performance and opens new directions for combining symbolic reasoning with neural approaches.</div>
+                        <a href="#" class="story-link">Read full paper →</a>
+                    </div>
+
+                    <div class="story-item">
+                        <div class="story-header">
+                            <span class="story-number">4</span>
+                            <div class="story-title">Cross-Modal Recommendation with Vision-Language Models</div>
+                        </div>
+                        <div class="story-meta">Source: ArXiv | Date: March 3, 2026</div>
+                        <div class="story-summary">Novel approach leverages vision-language models for cross-modal recommendation linking images, text, and structured data. Achieves state-of-the-art results on benchmark datasets with improved semantic understanding.</div>
+                        <a href="#" class="story-link">Read full paper →</a>
+                    </div>
+
+                    <div class="story-item">
+                        <div class="story-header">
+                            <span class="story-number">5</span>
+                            <div class="story-title">Efficient Fine-tuning of LLMs for Domain-Specific Recommendation</div>
+                        </div>
+                        <div class="story-meta">Source: Papers with Code | Date: March 1, 2026</div>
+                        <div class="story-summary">Research presents LoRA-based approach for efficient fine-tuning of large language models for domain-specific recommendation tasks. Reduces computational costs by 80% while maintaining performance parity with full fine-tuning.</div>
+                        <a href="#" class="story-link">Read full paper →</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer">
+                Generated: 2026-03-16 at 08:00 AM | 20 items across 4 domains | Your daily briefing is ready for review
+            </div>
+        </div>
+    </div>
+</body>
+</html>

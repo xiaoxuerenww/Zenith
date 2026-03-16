@@ -1,0 +1,39 @@
+{
+  "name": "zenith",
+  "version": "1.0.0",
+  "description": "Intelligent briefing and research curation skills for Claude",
+  "main": "index.js",
+  "scripts": {
+    "test:daily-briefing": "node tests/test-daily-briefing.js",
+    "test:paper-crawler": "node tests/test-paper-crawler.js",
+    "test:all": "npm run test:daily-briefing && npm run test:paper-crawler",
+    "dev:daily-briefing": "nodemon --exec 'node tests/test-daily-briefing.js' --watch skills/daily-briefing",
+    "dev:paper-crawler": "nodemon --exec 'node tests/test-paper-crawler.js' --watch skills/paper-crawler",
+    "start": "node index.js",
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
+  "keywords": [
+    "claude",
+    "skills",
+    "briefing",
+    "research",
+    "ai",
+    "automation"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.6.0",
+    "cheerio": "^1.0.0",
+    "dotenv": "^16.0.0",
+    "express": "^4.18.0",
+    "nodemailer": "^6.9.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.0.0",
+    "jest": "^29.0.0",
+    "nodemon": "^3.0.0",
+    "prettier": "^3.0.0"
+  }
+}

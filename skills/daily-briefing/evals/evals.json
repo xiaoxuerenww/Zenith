@@ -1,0 +1,23 @@
+{
+  "skill_name": "daily-briefing",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Set up a daily morning briefing that covers the top stories in Politics, Technology, Economics/Finance, and the latest research in LLM + Recommendation Systems. I want it delivered as a Word document every day at 8 AM, with brief 2-3 sentence summaries for each story. Give me 5 top items per category.",
+      "expected_output": "A professional Word document or HTML briefing containing 4 sections (Politics, Tech, Economics, LLM+Recs), with 5 items per section (20 total). Each item should have: title, source, date (in Month DD, YYYY format), 2-3 sentence summary, and link. Additionally, a scheduled task configured to run daily at 8 AM.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "I need to automate my morning routine. Create a daily briefing that pulls the top news from Politics, Technology, and Economics sections, plus the latest papers in LLM-based recommendation systems. Generate a Word document every morning at 8 AM with summaries I can read in 10 minutes. Include 5 top items from each category.",
+      "expected_output": "A well-formatted Word document with 4 category sections, 5 items each (20 total). Each entry includes: headline, source, date, concise 2-3 sentence summary explaining the story's significance, and a clickable link. The brief should be scannable and consumable in ~10 minutes.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "I want to stay informed across multiple domains without spending too much time. Can you set up a system that every morning at 8 AM generates a briefing with the top developments in politics, tech news, financial markets, and new LLM research relevant to recommendation systems? Format it as a Word document with clear sections and links. I want comprehensive coverage so give me 5 items from each category.",
+      "expected_output": "A comprehensive Word document briefing with: clear timestamp, 4 distinct sections (Politics, Technology, Economics/Finance, LLM x Recommendations), 5 top items per section (20 total), proper formatting with category headers, consistent source attribution, publication dates, digestible summaries, and direct links. Accompanied by a scheduled daily task at 8 AM.",
+      "files": []
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "skill_name": "llm-recommendations-paper-crawler",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Set up a daily morning brief that crawls the latest papers in LLM and recommendation systems. I want the top 5 papers delivered as a Word document every day at 8 AM. Include title, authors, a brief 1-2 sentence summary, and the link to each paper.",
+      "expected_output": "A professional Word document (.docx) named something like 'LLM_Recommendations_Brief_YYYY-MM-DD.docx' containing the top 5 papers ranked by relevance and recency, with each paper entry including title, authors, date, summary, link, and relevance score. Additionally, a scheduled task should be created to run this daily at 8 AM.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "I need an immediate update on the latest research at the intersection of large language models and recommendation systems. Can you find and summarize the top 5 papers from the past 2 weeks? Format it as a Word doc with minimal but informative summaries.",
+      "expected_output": "A Word document with a curated brief of the top 5 most relevant and recent papers in the LLM+Recommendations domain. Each entry should have: title, authors, publication date, a concise 1-2 sentence summary explaining its relevance, and a link. Include a timestamp and explanation of the selection criteria.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "I want to automate my research process. Create a scheduled daily task that searches ArXiv, Papers with Code, and Google Scholar for papers about LLM-based recommendation systems, recommendation with transformers, or similar topics. Every morning at 8 AM, generate a brief with the top 5 papers I haven't seen yet and save it as a Word document.",
+      "expected_output": "A setup that includes: (1) a configured scheduled task running daily at 8 AM, (2) a Word document generated each morning with the top 5 papers, (3) proper paper discovery across multiple sources, (4) ranking based on relevance + recency, and (5) consistent formatting with titles, authors, summaries, and links.",
+      "files": []
+    }
+  ]
+}
