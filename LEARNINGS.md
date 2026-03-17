@@ -59,6 +59,42 @@ Claude skills must have `SKILL.md` at the top level of the zip — not nested in
 
 ---
 
+## Cost & Efficiency
+
+### Job latency is ~10 minutes
+The briefing generation is dominated by web search round-trips. Claude performs 12–15 searches across 4 categories, each adding latency. Schedule the job 10 minutes before the desired delivery time.
+
+### Cost per run (Claude Opus 4.6)
+| Component | Estimate |
+|---|---|
+| Input tokens | ~80–120K (web search results are large) |
+| Output tokens | ~6–8K (full HTML briefing) |
+| Input cost | ~$0.40–0.60 @ $5/1M |
+| Output cost | ~$0.15–0.20 @ $25/1M |
+| **Total per run** | **~$0.55–0.80** |
+| **Monthly (30 runs)** | **~$16–24** |
+
+Exact numbers are logged on every run:
+```
+── Usage ───────────────────────────────
+Latency:       612.3s
+Input tokens:  94,821
+Output tokens: 7,204
+Cost:          $0.6543
+───────────────────────────────────────
+```
+
+### Sonnet 4.6 is ~3× cheaper with similar quality for news summarization
+Switching from Opus 4.6 to Sonnet 4.6 reduces cost to ~$0.20–0.30 per run (~$6–9/month). For structured summarization tasks like this briefing, the quality difference is minimal. Use Opus only when deeper reasoning is required.
+
+### Web search tokens dominate input costs
+Each web search result returns ~3–5K tokens. With 12–15 searches per run, search results account for 80–90% of input tokens. Combining category searches or limiting results per query is the most effective lever for reducing cost.
+
+### Use explicit time windows to avoid redundant searches
+Passing a precise `"Mar 16 2:48 PM – Mar 17 2:48 PM"` window to Claude reduces ambiguity, prevents re-fetching old stories, and keeps search queries more focused — saving both tokens and latency.
+
+---
+
 ## General
 
 ### Verify domain before going live
