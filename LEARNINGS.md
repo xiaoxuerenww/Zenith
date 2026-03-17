@@ -59,6 +59,33 @@ Claude skills must have `SKILL.md` at the top level of the zip — not nested in
 
 ---
 
+## Scaling to 1M Subscribers
+
+### Content generation cost doesn't scale with subscribers
+The Claude API call is a one-time cost per day (~$0.70) regardless of how many people receive the briefing. At 1M subscribers, this is still ~$21/month — essentially free. The bottleneck is email delivery, not AI generation.
+
+### Email delivery dominates cost at scale
+| Component | Monthly cost at 1M subscribers |
+|---|---|
+| Claude API (generation) | $21 |
+| Email delivery (AWS SES) | $3,000 |
+| Infrastructure | $1,500 |
+| **Total** | **~$4,500/mo** |
+| **Per subscriber** | **$0.0045/mo (~$0.054/year)** |
+
+### AWS SES is the only viable email provider at scale
+Resend ($24,000/mo) and SendGrid ($18,000/mo) are 6–8× more expensive than AWS SES ($3,000/mo) at 1M emails/day. Switch to SES for anything beyond ~50K subscribers/month.
+
+### Current architecture breaks at scale — three critical rewrites needed
+1. **Sequential email loop** — sending 1 email at a time takes ~28 hours for 1M recipients. Needs parallel batch workers.
+2. **JSON file storage** — can't handle 1M subscriber records. Replace with PostgreSQL or Redis.
+3. **Single server** — needs load-balanced workers and a dedicated sending IP (with warmup) for deliverability.
+
+### Unit economics are favorable
+At $0.054/subscriber/year in costs, even a $1/year subscription price yields ~18× gross margin on infrastructure. The hard part is subscriber acquisition, not cost.
+
+---
+
 ## Cost & Efficiency
 
 ### Job latency is ~10 minutes
