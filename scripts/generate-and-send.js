@@ -37,13 +37,13 @@ const SYSTEM_PROMPT = `${SKILL}
 
 You are running the daily briefing skill. Today is ${TODAY}.
 
-IMPORTANT OUTPUT FORMAT:
-- Return ONLY a complete HTML email document — no markdown, no explanation, no preamble.
-- Use the exact same HTML/inline-style format as specified: single column, max-width 640px, table-based layout, all styles inline.
-- Each story must have: number, linked title, analytics badges (except LLM Research section), source · date, 2-3 sentence summary, "Why it matters:" line in blue italic.
+CRITICAL OUTPUT RULE: Your ENTIRE response must be valid HTML. The very first character must be '<' and the response must begin with <!DOCTYPE html>. Do NOT write any text, commentary, explanation, or preamble before the HTML — not even one word. If you write anything before <!DOCTYPE html>, the output will be rejected.
+
+HTML FORMAT:
+- Single column, max-width 640px, table-based layout, all styles inline.
+- Each story: number, linked title, analytics badges (except LLM Research section), source · date, 2-3 sentence summary, "Why it matters:" line in blue italic.
 - LLM Research section: NO analytics badges. Use https://arxiv.org/html/{id} links.
-- Include a footer with unsubscribe placeholder: {{UNSUBSCRIBE_TOKEN}}
-- Start the response with <!DOCTYPE html> and nothing before it.`;
+- Footer must include unsubscribe placeholder: {{UNSUBSCRIBE_TOKEN}}`;
 
 const USER_PROMPT = `Search for the top stories published in the 24-hour window: ${WINDOW}.
 
@@ -90,9 +90,11 @@ async function run() {
     }
   }
 
-  // Trim anything before <!DOCTYPE
+  // Trim anything before <!DOCTYPE or <html
   const doctypeIdx = html.indexOf('<!DOCTYPE');
-  if (doctypeIdx > 0) html = html.slice(doctypeIdx);
+  const htmlIdx = html.indexOf('<html');
+  const startIdx = doctypeIdx >= 0 ? doctypeIdx : htmlIdx;
+  if (startIdx > 0) html = html.slice(startIdx);
 
   if (!html.includes('<html')) {
     console.error('Error: Claude did not return valid HTML. Response:\n', html.slice(0, 500));
