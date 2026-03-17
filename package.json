@@ -10,6 +10,7 @@
     "dev:daily-briefing": "nodemon --exec 'node tests/test-daily-briefing.js' --watch skills/daily-briefing",
     "dev:paper-crawler": "nodemon --exec 'node tests/test-paper-crawler.js' --watch skills/paper-crawler",
     "start": "node server.js",
+    "brief": "node scripts/generate-and-send.js",
     "lint": "eslint .",
     "format": "prettier --write ."
   },
@@ -24,6 +25,7 @@
   "author": "Your Name",
   "license": "MIT",
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.79.0",
     "axios": "^1.6.0",
     "cheerio": "^1.0.0",
     "dotenv": "^16.0.0",
