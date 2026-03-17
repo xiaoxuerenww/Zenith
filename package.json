@@ -9,7 +9,7 @@
     "test:all": "npm run test:daily-briefing && npm run test:paper-crawler",
     "dev:daily-briefing": "nodemon --exec 'node tests/test-daily-briefing.js' --watch skills/daily-briefing",
     "dev:paper-crawler": "nodemon --exec 'node tests/test-paper-crawler.js' --watch skills/paper-crawler",
-    "start": "node index.js",
+    "start": "node server.js",
     "lint": "eslint .",
     "format": "prettier --write ."
   },
