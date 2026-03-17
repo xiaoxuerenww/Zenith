@@ -6,6 +6,34 @@ Zenith is an automated daily briefing system that filters information noise to s
 
 ---
 
+## Example Output
+
+Each daily brief is a dense 2-column HTML email:
+
+```
+┌─────────────────────────────┬─────────────────────────────┐
+│  POLITICS                   │  TECHNOLOGY                 │
+│  ─────────────────────────  │  ─────────────────────────  │
+│  [1] Senate Passes...       │  [1] OpenAI Launches...     │
+│  🔴 CRITICAL  😟 Neg  ⚡8   │  🟡 HIGH  😊 Pos  ⚡9       │
+│  Reuters · Mar 16, 2026     │  TechCrunch · Mar 16, 2026  │
+│  Summary of the story...    │  Summary of the story...    │
+│  Why it matters: ...        │  Why it matters: ...        │
+│                             │                             │
+│  ECONOMICS                  │  LLM RESEARCH               │
+│  ─────────────────────────  │  ─────────────────────────  │
+│  [1] Fed Holds Rates...     │  [1] RAG-Rec: Retrieval...  │
+│  🟢 HIGH  😐 Neu  ⚡7       │  Authors: Chen et al.       │
+│  Bloomberg · Mar 16, 2026   │  ArXiv · Mar 15, 2026       │
+│  Summary...                 │  Summary...                 │
+│  Why it matters: ...        │  Why it matters: ...        │
+└─────────────────────────────┴─────────────────────────────┘
+```
+
+Full rendered example: [`examples/daily_briefing_with_analytics.html`](examples/daily_briefing_with_analytics.html)
+
+---
+
 ## Features
 
 - **20 curated stories daily** — 5 per category, ranked by importance and recency
