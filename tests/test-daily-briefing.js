@@ -8,6 +8,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const emailSender = require('../src/email-sender');
 
 // Mock data for testing
 const mockBriefingData = {
@@ -68,7 +69,7 @@ const mockBriefingData = {
       source: "ArXiv",
       date: "March 10, 2026",
       summary: "Comprehensive survey systematically reviews LLM-powered agents in recommender systems.",
-      url: "https://arxiv.org/abs/2502.10050",
+      url: "https://arxiv.org/html/2502.10050",
       importance: "HIGH",
       sentiment: "Positive",
       impact: 7
@@ -274,6 +275,7 @@ function generateHTMLEmail(briefing) {
   <style>
     body { font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; }
     .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; text-align: center; }
+    .category-section { margin: 30px 0; }
     .story-item { margin: 20px 0; padding: 15px; border-left: 4px solid #667eea; }
     .story-title { font-weight: bold; font-size: 16px; }
     .story-meta { font-size: 12px; color: #666; }
@@ -281,6 +283,7 @@ function generateHTMLEmail(briefing) {
     .analytics { display: flex; gap: 10px; margin: 10px 0; }
     .badge { padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; background: #f0f0f0; }
     .story-link { color: #667eea; text-decoration: none; font-weight: bold; }
+    footer { border-top: 1px solid #ddd; padding-top: 20px; margin-top: 20px; text-align: center; font-size: 12px; color: #666; }
   </style>
 </head>
 <body>
@@ -288,15 +291,143 @@ function generateHTMLEmail(briefing) {
     <h1>Zenith Daily Brief</h1>
     <p>${briefing.date}</p>
   </div>
-  <div class="content">
+  <div class="category-section">
     ${itemsHTML}
   </div>
-  <div style="border-top: 1px solid #ddd; padding-top: 20px; margin-top: 20px; text-align: center; font-size: 12px; color: #666;">
-    <a href="#">Manage Preferences</a> | <a href="#">Unsubscribe</a>
-  </div>
+  <footer>
+    <a href="#">Manage Preferences</a> | <a href="#" class="unsubscribe">unsubscribe</a>
+  </footer>
 </body>
 </html>
   `;
+}
+
+/**
+ * Test 6: Email subscription management
+ */
+function testEmailSubscriptions() {
+  console.log('\n✅ TEST 6: Email Subscription Management');
+  console.log('─'.repeat(50));
+
+  const subsFile = path.join(__dirname, '../data/subscriptions.json');
+  const backup = fs.existsSync(subsFile) ? fs.readFileSync(subsFile, 'utf8') : null;
+
+  // Start with a clean slate
+  fs.mkdirSync(path.dirname(subsFile), { recursive: true });
+  fs.writeFileSync(subsFile, '[]');
+
+  try {
+    const sub = emailSender.subscribe('test@example.com', { sendTime: '09:00' });
+    console.log(`✓ Subscribed: ${sub.email}`);
+    console.log(`✓ Has unsubscribe token: ${!!sub.unsubscribeToken}`);
+    console.log(`✓ Status active: ${sub.status === 'active'}`);
+
+    const sub2 = emailSender.subscribe('test@example.com');
+    console.log(`✓ Duplicate subscribe returns existing: ${sub.id === sub2.id}`);
+
+    emailSender.subscribe('another@example.com');
+    const subscribers = emailSender.getSubscriptions();
+    console.log(`✓ Active subscribers: ${subscribers.length}`);
+
+    const removed = emailSender.unsubscribe(sub.unsubscribeToken);
+    console.log(`✓ Unsubscribe succeeded: ${removed}`);
+
+    const remaining = emailSender.getSubscriptions();
+    console.log(`✓ Remaining after unsubscribe: ${remaining.length}`);
+
+    let threw = false;
+    try { emailSender.subscribe('not-an-email'); } catch { threw = true; }
+    console.log(`✓ Invalid email throws: ${threw}`);
+
+    return subscribers.length === 2 && remaining.length === 1 && removed && threw;
+  } catch (err) {
+    console.error('✗ Email subscription test failed:', err.message);
+    return false;
+  } finally {
+    // Restore original subscriptions
+    if (backup !== null) fs.writeFileSync(subsFile, backup);
+    else fs.unlinkSync(subsFile);
+  }
+}
+
+/**
+ * Test 7: Subscribe from file
+ */
+function testSubscribeFromFile() {
+  console.log('\n✅ TEST 7: Subscribe From File');
+  console.log('─'.repeat(50));
+
+  const tmpFile = path.join(__dirname, '../data/test_emails.txt');
+
+  try {
+    fs.writeFileSync(tmpFile, [
+      '# Test subscriber list',
+      'file-user1@example.com',
+      'file-user2@example.com',
+      '',           // blank line — should be ignored
+      '# comment',  // comment — should be ignored
+      'not-an-email', // invalid — should be flagged
+      'file-user1@example.com', // duplicate on second call
+    ].join('\n'));
+
+    const result = emailSender.subscribeFromFile(tmpFile);
+    console.log(`✓ Subscribed: ${result.subscribed.length} (${result.subscribed.join(', ')})`);
+    console.log(`✓ Invalid flagged: ${result.invalid.length} (${result.invalid.join(', ')})`);
+
+    // Second call — both emails already active, should be skipped
+    const result2 = emailSender.subscribeFromFile(tmpFile);
+    console.log(`✓ Skipped duplicates: ${result2.skipped.length}`);
+    console.log(`✓ Re-subscribed: ${result2.subscribed.length}`);
+
+    // File not found throws
+    let threw = false;
+    try { emailSender.subscribeFromFile('/nonexistent/path.txt'); } catch { threw = true; }
+    console.log(`✓ Missing file throws: ${threw}`);
+
+    return result.subscribed.length === 2 && result.invalid.length === 1 &&
+           result2.skipped.length === 3 && result2.subscribed.length === 0 && threw;
+  } catch (err) {
+    console.error('✗ subscribeFromFile test failed:', err.message);
+    return false;
+  } finally {
+    if (fs.existsSync(tmpFile)) fs.unlinkSync(tmpFile);
+    // Clean up test emails from subscriptions
+    const subsFile = path.join(__dirname, '../data/subscriptions.json');
+    if (fs.existsSync(subsFile)) {
+      const subs = JSON.parse(fs.readFileSync(subsFile, 'utf8'))
+        .filter(s => !s.email.startsWith('file-user'));
+      fs.writeFileSync(subsFile, JSON.stringify(subs, null, 2));
+    }
+  }
+}
+
+/**
+ * Test 8: sendDailyBriefing with no subscribers (dry run)
+ */
+async function testSendDailyBriefingDryRun(html) {
+  console.log('\n✅ TEST 8: Send Daily Briefing (dry run — no subscribers)');
+  console.log('─'.repeat(50));
+
+  const subsFile = path.join(__dirname, '../data/subscriptions.json');
+  const backup = fs.existsSync(subsFile) ? fs.readFileSync(subsFile, 'utf8') : null;
+
+  // Ensure no active subscribers so no real SMTP calls are made
+  fs.mkdirSync(path.dirname(subsFile), { recursive: true });
+  fs.writeFileSync(subsFile, '[]');
+
+  try {
+    const result = await emailSender.sendDailyBriefing(html);
+    console.log(`✓ Sent: ${result.sent}`);
+    console.log(`✓ Failed: ${result.failed}`);
+    console.log(`✓ Returns correct shape: ${'sent' in result && 'failed' in result && 'errors' in result}`);
+    return result.sent === 0 && result.failed === 0;
+  } catch (err) {
+    console.error('✗ sendDailyBriefing dry run failed:', err.message);
+    return false;
+  } finally {
+    if (backup !== null) fs.writeFileSync(subsFile, backup);
+    else fs.unlinkSync(subsFile);
+  }
 }
 
 /**
@@ -321,6 +452,9 @@ async function runTests() {
   results.push(['Validate Analytics', testValidateAnalytics(briefing) ? '✓ PASS' : '✗ FAIL']);
   results.push(['Format Quality', testFormatQuality(html) ? '✓ PASS' : '✗ FAIL']);
   results.push(['Performance', testPerformance() ? '✓ PASS' : '✗ FAIL']);
+  results.push(['Email Subscriptions', testEmailSubscriptions() ? '✓ PASS' : '✗ FAIL']);
+  results.push(['Subscribe From File', testSubscribeFromFile() ? '✓ PASS' : '✗ FAIL']);
+  results.push(['Send Briefing (dry run)', await testSendDailyBriefingDryRun(html) ? '✓ PASS' : '✗ FAIL']);
 
   // Summary
   console.log('\n' + '═'.repeat(50));

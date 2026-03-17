@@ -49,6 +49,8 @@ For each category, search the appropriate sources:
 - ArXiv, Papers with Code, Google Scholar
 - Focus: Research at the intersection of LLMs and recommendation systems
 - Recency: Within the last 2 weeks, prioritize recent preprints and published papers
+- Links: Use `https://arxiv.org/html/{paper_id}` format for all ArXiv papers (not `/abs/`)
+- Analytics: Do NOT include Importance, Sentiment, or Impact analytics for items in this section
 
 ### 2. Selection & Ranking
 
