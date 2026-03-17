@@ -1,6 +1,6 @@
-# Key Learnings — Building Zenith
+# Technical Learnings — Building Zenith
 
-A personal log of lessons learned while building this automated daily briefing system.
+A personal log of technical lessons learned while building this automated daily briefing system.
 
 ---
 
@@ -59,33 +59,6 @@ Claude skills must have `SKILL.md` at the top level of the zip — not nested in
 
 ---
 
-## Scaling to 1M Subscribers
-
-### Content generation cost doesn't scale with subscribers
-The Claude API call is a one-time cost per day (~$0.70) regardless of how many people receive the briefing. At 1M subscribers, this is still ~$21/month — essentially free. The bottleneck is email delivery, not AI generation.
-
-### Email delivery dominates cost at scale
-| Component | Monthly cost at 1M subscribers |
-|---|---|
-| Claude API (generation) | $21 |
-| Email delivery (AWS SES) | $3,000 |
-| Infrastructure | $1,500 |
-| **Total** | **~$4,500/mo** |
-| **Per subscriber** | **$0.0045/mo (~$0.054/year)** |
-
-### AWS SES is the only viable email provider at scale
-Resend ($24,000/mo) and SendGrid ($18,000/mo) are 6–8× more expensive than AWS SES ($3,000/mo) at 1M emails/day. Switch to SES for anything beyond ~50K subscribers/month.
-
-### Current architecture breaks at scale — three critical rewrites needed
-1. **Sequential email loop** — sending 1 email at a time takes ~28 hours for 1M recipients. Needs parallel batch workers.
-2. **JSON file storage** — can't handle 1M subscriber records. Replace with PostgreSQL or Redis.
-3. **Single server** — needs load-balanced workers and a dedicated sending IP (with warmup) for deliverability.
-
-### Unit economics are favorable
-At $0.054/subscriber/year in costs, even a $1/year subscription price yields ~18× gross margin on infrastructure. The hard part is subscriber acquisition, not cost.
-
----
-
 ## Cost & Efficiency
 
 ### Job latency is ~10 minutes
@@ -119,38 +92,6 @@ Each web search result returns ~3–5K tokens. With 12–15 searches per run, se
 
 ### Use explicit time windows to avoid redundant searches
 Passing a precise `"Mar 16 2:48 PM – Mar 17 2:48 PM"` window to Claude reduces ambiguity, prevents re-fetching old stories, and keeps search queries more focused — saving both tokens and latency.
-
----
-
-## Pricing Strategy
-
-### Costs are so low that pricing is driven by value, not cost
-At any subscriber count, the cost per user per month is well under $0.30. Pricing should be set based on perceived value and market comparables, not cost recovery.
-
-### Break-even and suggested pricing by scale
-| Subscribers | Monthly cost | Cost/user/mo | Suggested price |
-|---|---|---|---|
-| 100 | ~$25 | $0.25 | $1–2/mo |
-| 1,000 | ~$45 | $0.045 | $1–2/mo |
-| 10,000 | ~$120 | $0.012 | $1–2/mo |
-| 100,000 | ~$900 | $0.009 | $1–2/mo |
-| 1,000,000 | ~$4,500 | $0.0045 | $1–2/mo |
-
-### Recommended pricing: $4/month or $30/year
-- **Free tier** — 1 category only (acquisition funnel)
-- **Premium** — $4/mo, all 4 categories + daily delivery
-- **Annual** — $30/yr ($2.50/mo), ~35% discount to reduce churn
-
-At 1,000 paying subscribers: $4,000 MRR vs. ~$45 in costs → **98% gross margin**.
-
-### Why $4/month specifically
-- Comparable newsletters charge $10–30/mo (Morning Brew Pro, Stratechery, The Information)
-- Below $2/mo, Stripe fees (~$0.30 + 2.9%) consume 15–30% of revenue — not worth it
-- Above $10/mo, conversion drops sharply without an established brand
-- $4/mo is low enough to be an impulse purchase, high enough to signal value
-
-### The business is zero marginal cost — acquisition is the only real challenge
-The 1,000th subscriber costs almost nothing more than the 10th. Profitability is determined entirely by how cheaply you can acquire subscribers, not by operational costs.
 
 ---
 
