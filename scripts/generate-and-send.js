@@ -20,9 +20,18 @@ const SKILL = fs.readFileSync(
   'utf8',
 );
 
-const TODAY = new Date().toLocaleDateString('en-US', {
+const now = new Date();
+const windowStart = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+
+const TODAY = now.toLocaleDateString('en-US', {
   weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
 });
+
+const WINDOW = `${windowStart.toLocaleString('en-US', {
+  month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true,
+})} – ${now.toLocaleString('en-US', {
+  month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true,
+})}`;
 
 const SYSTEM_PROMPT = `${SKILL}
 
@@ -36,15 +45,17 @@ IMPORTANT OUTPUT FORMAT:
 - Include a footer with unsubscribe placeholder: {{UNSUBSCRIBE_TOKEN}}
 - Start the response with <!DOCTYPE html> and nothing before it.`;
 
-const USER_PROMPT = `Search for today's top stories and generate the daily briefing HTML email for ${TODAY}.
+const USER_PROMPT = `Search for the top stories published in the 24-hour window: ${WINDOW}.
+
+Only include stories published within this exact window. Do not include older stories.
 
 Search each category:
-1. Politics — top 5 stories from Reuters, BBC, AP, NPR, The Guardian (last 24h)
-2. Technology — top 5 from TechCrunch, The Verge, Ars Technica, Bloomberg Tech (last 24h)
-3. Economics/Finance — top 5 from Bloomberg, CNBC, FT, MarketWatch (last 24h)
+1. Politics — top 5 stories from Reuters, BBC, AP, NPR, The Guardian
+2. Technology — top 5 from TechCrunch, The Verge, Ars Technica, Bloomberg Tech
+3. Economics/Finance — top 5 from Bloomberg, CNBC, FT, MarketWatch
 4. LLM x Recommendation Systems — top 5 papers from ArXiv (last 2 weeks)
 
-Return only the complete HTML email. No commentary before or after.`;
+Generate the daily briefing HTML email for ${TODAY}. Return only the complete HTML email. No commentary before or after.`;
 
 async function run() {
   const client = new Anthropic.default({ apiKey: process.env.CLAUDE_API_KEY });
