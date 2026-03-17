@@ -122,6 +122,38 @@ Passing a precise `"Mar 16 2:48 PM – Mar 17 2:48 PM"` window to Claude reduces
 
 ---
 
+## Pricing Strategy
+
+### Costs are so low that pricing is driven by value, not cost
+At any subscriber count, the cost per user per month is well under $0.30. Pricing should be set based on perceived value and market comparables, not cost recovery.
+
+### Break-even and suggested pricing by scale
+| Subscribers | Monthly cost | Cost/user/mo | Suggested price |
+|---|---|---|---|
+| 100 | ~$25 | $0.25 | $1–2/mo |
+| 1,000 | ~$45 | $0.045 | $1–2/mo |
+| 10,000 | ~$120 | $0.012 | $1–2/mo |
+| 100,000 | ~$900 | $0.009 | $1–2/mo |
+| 1,000,000 | ~$4,500 | $0.0045 | $1–2/mo |
+
+### Recommended pricing: $4/month or $30/year
+- **Free tier** — 1 category only (acquisition funnel)
+- **Premium** — $4/mo, all 4 categories + daily delivery
+- **Annual** — $30/yr ($2.50/mo), ~35% discount to reduce churn
+
+At 1,000 paying subscribers: $4,000 MRR vs. ~$45 in costs → **98% gross margin**.
+
+### Why $4/month specifically
+- Comparable newsletters charge $10–30/mo (Morning Brew Pro, Stratechery, The Information)
+- Below $2/mo, Stripe fees (~$0.30 + 2.9%) consume 15–30% of revenue — not worth it
+- Above $10/mo, conversion drops sharply without an established brand
+- $4/mo is low enough to be an impulse purchase, high enough to signal value
+
+### The business is zero marginal cost — acquisition is the only real challenge
+The 1,000th subscriber costs almost nothing more than the 10th. Profitability is determined entirely by how cheaply you can acquire subscribers, not by operational costs.
+
+---
+
 ## General
 
 ### Verify domain before going live
