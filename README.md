@@ -1,238 +1,137 @@
-# 🎯 Zenith
+# Zenith
 
 **Help people focus their limited attention on what truly matters.**
 
-Zenith is a collection of intelligent briefing and research curation skills that filter through information noise to surface only the most important developments across multiple domains.
-
-## Overview
-
-Zenith consists of two complementary skills:
-
-### 1. **Zenith Daily Briefing**
-Your daily command center for focused intelligence across 4 critical domains.
-
-- **Politics** — Major policy changes, elections, legislative developments
-- **Technology** — Product launches, AI breakthroughs, industry trends
-- **Economics & Finance** — Market movements, economic data, financial trends
-- **LLM + Recommendation Systems** — Cutting-edge academic research
-
-**Delivers:** 20 curated items (5 per category) with Impact & Sentiment analytics
-**Schedule:** Daily at 8 AM or on-demand
-**Format:** Professional HTML/Word briefing with working links
-
-### 2. **Zenith Research Frontier**
-Stay ahead in academic research at the intersection of LLMs and recommendation systems.
-
-- **Sources:** ArXiv, Papers with Code, Google Scholar
-- **Delivers:** Top 5 papers ranked by recency + relevance
-- **Schedule:** Daily at 8 AM or on-demand
-- **Format:** Curated brief with complete paper metadata
+Zenith is an automated daily briefing system that filters information noise to surface the most important developments across Politics, Technology, Economics, and LLM Research — delivered to your inbox every morning.
 
 ---
 
-## 🎯 Mission
+## Features
 
-In a world of information overload, **Zenith** helps you:
-- ✅ Cut through noise to find signal
-- ✅ Focus on what genuinely matters to you
-- ✅ Stay informed without information fatigue
-- ✅ Make better decisions with curated intelligence
-
-**Your attention is limited. Zenith respects that.**
+- **20 curated stories daily** — 5 per category, ranked by importance and recency
+- **Analytics badges** — Importance level, sentiment, and impact score per story
+- **"Why it matters"** — A concise line explaining relevance for every item
+- **2-column HTML email** — Dense, scannable layout optimized for Gmail
+- **ArXiv links** — All papers link to readable `/html/` format
+- **Email delivery** — SMTP-based, subscriber list from a plain text file
+- **Scheduled sends** — Daily at 7 AM (configurable)
+- **8/8 tests passing**
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
-### Installation
+### 1. Install dependencies
 
-1. Download the skill files from the `skills/` directory
-2. Load them into your Claude environment
-3. Trigger them manually or set up daily scheduling
-
-### Daily Briefing Usage
-
-```
-"Set up my morning briefing across politics, tech, economics, and AI research"
-"Create a daily digest of the top stories"
-"I want focused intelligence without information overload"
+```bash
+npm install
 ```
 
-### Research Frontier Usage
+### 2. Configure SMTP
 
+```bash
+cp .env.example .env
+# Edit .env and fill in your Gmail + App Password
 ```
-"Set up a daily paper digest on LLM-based recommendation systems"
-"Find the latest academic papers on LLMs and recommendations"
-"Create my research brief automation"
+
+To generate a Gmail App Password: [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords)
+
+### 3. Add subscribers
+
+```bash
+# data/subscribers.txt — one email per line, # for comments
+you@example.com
+```
+
+### 4. Send the daily brief
+
+```bash
+node scripts/send-daily-brief.js
+```
+
+### 5. Send a test email
+
+```bash
+node scripts/send-test-email.js you@example.com
 ```
 
 ---
 
-## 📊 Key Features
-
-### Daily Briefing
-
-**Content Analysis:**
-- Importance Level: CRITICAL → HIGH → MEDIUM → EMERGING
-- Sentiment: Positive | Negative | Neutral
-- Impact Score: 1-10 scale measuring ripple effects
-
-**Structure:**
-- 20 curated items across 4 domains
-- 5 items per category (comprehensive yet digestible)
-- 2-3 sentence summaries explaining the "why"
-- Direct links to full articles/papers
-- Professional timestamp and formatting
-
-### Research Frontier
-
-**Paper Curation:**
-- Relevance scoring (0-100) based on domain expertise
-- Multi-source discovery across top academic platforms
-- Complete metadata: title, authors, date, summary, link
-- Automated quality validation
-
----
-
-## 📦 Files
+## Project Structure
 
 ```
 Zenith/
-├── README.md (this file)
-├── LICENSE (MIT)
-├── INSTALLATION.md
-├── USAGE.md
+├── src/
+│   └── email-sender.js          # Subscribe, unsubscribe, send
+├── scripts/
+│   ├── send-daily-brief.js      # Send to all active subscribers
+│   └── send-test-email.js       # One-off test send
 ├── skills/
-│   ├── daily-briefing/
-│   │   ├── SKILL.md
-│   │   └── evals/
-│   │       └── evals.json
-│   └── paper-crawler/
-│       ├── SKILL.md
-│       └── evals/
-│           └── evals.json
+│   └── daily-briefing/
+│       └── SKILL.md             # Briefing generation spec
 ├── examples/
-│   ├── daily_briefing_sample.html
-│   └── paper_crawler_sample.html
-└── docs/
-    ├── FEATURES.md
-    ├── ANALYTICS.md
-    └── FAQ.md
+│   └── daily_briefing_with_analytics.html  # HTML email template
+├── tests/
+│   └── test-daily-briefing.js   # Test suite (8/8)
+├── data/
+│   └── subscribers.txt          # Subscriber list (gitignored)
+├── .env.example                 # Config template
+└── TODO.md                      # Roadmap
 ```
 
 ---
 
-## 🎨 Design Philosophy
+## Email API
 
-**Signal Over Noise**
-- Only the top items in each category
-- Importance-weighted ranking
-- Sentiment and impact analysis
+```js
+const email = require('./src/email-sender');
 
-**Respect Your Attention**
-- Scannable in 5-10 minutes
-- Clear categorization
-- Professional formatting
-- No filler or trivial news
-
-**Professional Quality**
-- Real, working links
-- Accurate metadata
-- Proper date formatting
-- Comprehensive analytics
+email.subscribe('user@example.com');
+email.subscribeFromFile('./data/subscribers.txt');
+email.unsubscribe('user@example.com');
+email.getSubscriptions();           // returns all subscribers
+email.sendDailyBriefing(htmlContent, subject);
+email.sendEmail(to, subject, html); // one-off send
+```
 
 ---
 
-## 📈 Analytics Explained
+## Configuration
 
-### Importance Level
-- **CRITICAL** — Immediate impact, market-moving events
-- **HIGH** — Significant developments
-- **MEDIUM** — Noteworthy but not urgent
-- **EMERGING** — Developing stories
+`.env` variables:
 
-### Sentiment
-- **Positive** — Bullish/good news
-- **Negative** — Bearish/concerning
-- **Neutral** — Informational
-
-### Impact Score
-1-10 scale measuring potential ripple effects across industries, markets, or research domains. Higher scores indicate broader/deeper impact.
+| Variable | Description |
+|---|---|
+| `SMTP_HOST` | SMTP server (default: `smtp.gmail.com`) |
+| `SMTP_PORT` | SMTP port (default: `587`) |
+| `SMTP_USER` | Your Gmail address |
+| `SMTP_PASSWORD` | Gmail App Password (not your account password) |
+| `FROM_EMAIL` | Sender address shown in emails |
 
 ---
 
-## 🔧 Configuration
+## Running Tests
 
-### Scheduling
-- **Daily at 8 AM** (default, customizable)
-- **On-demand** (trigger anytime for immediate briefing)
-
-### Customization
-- Adjust categories (add/remove domains)
-- Change item count (3-10 items per category)
-- Modify output format (HTML, Word, JSON)
-- Filter by importance level
-- Set sentiment preferences
+```bash
+npm run test:daily-briefing
+```
 
 ---
 
-## 📚 Documentation
+## Roadmap
 
-- **[INSTALLATION.md](INSTALLATION.md)** — Setup and configuration
-- **[USAGE.md](USAGE.md)** — How to use and trigger the skills
-- **[FEATURES.md](docs/FEATURES.md)** — Complete feature breakdown
-- **[ANALYTICS.md](docs/ANALYTICS.md)** — Understanding the analytics
-- **[FAQ.md](docs/FAQ.md)** — Common questions and answers
+See [TODO.md](TODO.md) for planned features including live news fetching, cron scheduling, unsubscribe links, and more.
 
 ---
 
-## 🤝 Contributing
+## Security
 
-Have ideas for improvements? Found a bug?
-
-We welcome contributions! Please:
-1. Fork the repository
-2. Create a feature branch
-3. Submit a pull request
-4. Include test cases if applicable
+- Never commit `.env` — it is gitignored
+- Use a Gmail **App Password**, not your account password
+- `data/subscribers.txt` and `data/subscriptions.json` are gitignored
 
 ---
 
-## 📄 License
+## License
 
-This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
-
----
-
-## 👤 Author
-
-Created with focus on helping people navigate information overload.
-
-**Mission:** Help people focus their limited attention on what truly matters.
-
----
-
-## 🙏 Support
-
-For issues, questions, or suggestions:
-- Open an issue on GitHub
-- Check the [FAQ.md](docs/FAQ.md)
-- Review the [USAGE.md](USAGE.md)
-
----
-
-## 🎯 Zenith Pledge
-
-We believe:
-- Your attention is your most valuable resource
-- Not all information deserves equal attention
-- Quality curation beats quantity aggregation
-- Focused intelligence beats information overload
-
-**Zenith is built on this pledge.**
-
----
-
-**Last updated:** March 16, 2026
-**Version:** 1.0 Production
-**Status:** Ready for deployment
+MIT

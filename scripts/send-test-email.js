@@ -12,7 +12,7 @@
 require('dotenv').config();
 const emailSender = require('../src/email-sender');
 
-const recipient = process.argv[2] || 'xuewangthu09@gmail.com';
+const recipient = process.argv[2] || process.env.SMTP_USER;
 
 const html = `
 <!DOCTYPE html>

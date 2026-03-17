@@ -46,6 +46,13 @@ skill_cache/
 secrets/
 credentials.json
 
+# Subscriber data (contains personal emails)
+data/subscribers.txt
+data/subscriptions.json
+
+# Claude session data
+.claude/
+
 # Backup files
 *.bak
 *.backup
