@@ -60,6 +60,7 @@ Generate the daily briefing HTML email for ${TODAY}. Return only the complete HT
 async function run() {
   const client = new Anthropic.default({ apiKey: process.env.CLAUDE_API_KEY });
 
+  const t0 = Date.now();
   console.log(`Generating daily briefing for ${TODAY}...`);
   console.log('Searching for live news via Claude + web search...\n');
 
@@ -79,8 +80,22 @@ async function run() {
   stream.on('message', () => {});
   stream.on('text', () => process.stdout.write('.'));
 
+  const t1 = Date.now();
   const message = await stream.finalMessage();
+  const elapsed = ((t1 - t0) / 1000).toFixed(1);
   console.log('\n');
+
+  // Log usage and cost
+  const u = message.usage;
+  const inputCost  = (u.input_tokens  / 1_000_000) * 5.00;
+  const outputCost = (u.output_tokens / 1_000_000) * 25.00;
+  const totalCost  = inputCost + outputCost;
+  console.log(`── Usage ──────────────────────────────`);
+  console.log(`Latency:      ${elapsed}s`);
+  console.log(`Input tokens: ${u.input_tokens.toLocaleString()}`);
+  console.log(`Output tokens:${u.output_tokens.toLocaleString()}`);
+  console.log(`Cost:         $${totalCost.toFixed(4)} (input $${inputCost.toFixed(4)} + output $${outputCost.toFixed(4)})`);
+  console.log(`───────────────────────────────────────\n`);
 
   // Extract the HTML from the response
   let html = '';
