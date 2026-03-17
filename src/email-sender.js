@@ -13,6 +13,29 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 
+// ---------------------------------------------------------------------------
+// Transport abstraction — Resend (API key) or SMTP (nodemailer)
+// ---------------------------------------------------------------------------
+
+async function sendRaw(to, subject, html) {
+  const from = process.env.FROM_EMAIL || process.env.SMTP_USER || 'onboarding@resend.dev';
+
+  if (process.env.RESEND_API_KEY) {
+    const { Resend } = require('resend');
+    const resend = new Resend(process.env.RESEND_API_KEY);
+    const { error } = await resend.emails.send({ from, to, subject, html });
+    if (error) throw new Error(error.message);
+  } else {
+    const transport = nodemailer.createTransport({
+      host: process.env.SMTP_HOST || 'smtp.gmail.com',
+      port: parseInt(process.env.SMTP_PORT || '587', 10),
+      secure: false,
+      auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASSWORD },
+    });
+    await transport.sendMail({ from, to, subject, html });
+  }
+}
+
 const SUBSCRIPTIONS_FILE = path.join(__dirname, '../data/subscriptions.json');
 
 // ---------------------------------------------------------------------------
@@ -123,22 +146,6 @@ function subscribeFromFile(filePath, preferences = {}) {
 }
 
 // ---------------------------------------------------------------------------
-// SMTP transport (nodemailer)
-// ---------------------------------------------------------------------------
-
-function createTransport() {
-  return nodemailer.createTransport({
-    host: process.env.SMTP_HOST || 'smtp.gmail.com',
-    port: parseInt(process.env.SMTP_PORT || '587', 10),
-    secure: false,
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASSWORD,
-    },
-  });
-}
-
-// ---------------------------------------------------------------------------
 // Email sending
 // ---------------------------------------------------------------------------
 
@@ -152,12 +159,10 @@ async function sendDailyBriefing(htmlContent, subject) {
   const subscribers = getSubscriptions();
   if (subscribers.length === 0) return { sent: 0, failed: 0, errors: [] };
 
-  const transport = createTransport();
   const date = new Date().toLocaleDateString('en-US', {
     year: 'numeric', month: 'long', day: 'numeric',
   });
   const emailSubject = subject || `Zenith Daily Brief — ${date}`;
-  const fromAddress = process.env.FROM_EMAIL || process.env.SMTP_USER;
 
   let sent = 0;
   let failed = 0;
@@ -168,14 +173,8 @@ async function sendDailyBriefing(htmlContent, subject) {
       /{{UNSUBSCRIBE_TOKEN}}/g,
       sub.unsubscribeToken,
     );
-
     try {
-      await transport.sendMail({
-        from: fromAddress,
-        to: sub.email,
-        subject: emailSubject,
-        html: personalizedHtml,
-      });
+      await sendRaw(sub.email, emailSubject, personalizedHtml);
       sent++;
     } catch (err) {
       failed++;
@@ -193,13 +192,7 @@ async function sendDailyBriefing(htmlContent, subject) {
  * @param {string} html
  */
 async function sendEmail(to, subject, html) {
-  const transport = createTransport();
-  await transport.sendMail({
-    from: process.env.FROM_EMAIL || process.env.SMTP_USER,
-    to,
-    subject,
-    html,
-  });
+  await sendRaw(to, subject, html);
 }
 
 module.exports = {
